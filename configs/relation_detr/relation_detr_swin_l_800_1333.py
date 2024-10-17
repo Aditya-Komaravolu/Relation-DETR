@@ -17,7 +17,7 @@ from models.necks.channel_mapper import ChannelMapper
 
 # mostly changed parameters
 embed_dim = 256
-num_classes = 91
+num_classes = 3
 num_queries = 900
 hybrid_num_proposals = 1500
 hybrid_assign = 6

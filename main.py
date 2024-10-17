@@ -100,7 +100,7 @@ def train():
 
     # Initialize accelerator
     project_config = ProjectConfiguration(
-        project_dir=cfg.output_dir, total_limit=5, automatic_checkpoint_naming=True
+        project_dir=cfg.output_dir, total_limit=None, automatic_checkpoint_naming=True
     )
     tensorboard_tracker = TensorBoardTracker(run_name="tf_log", logging_dir=cfg.output_dir)
     kwargs = DistributedDataParallelKwargs(find_unused_parameters=cfg.find_unused_parameters)
@@ -150,6 +150,8 @@ def train():
     # register dataset class information into the model, useful for inference
     cat_ids = list(range(max(cfg.train_dataset.coco.cats.keys()) + 1))
     classes = tuple(cfg.train_dataset.coco.cats.get(c, {"name": "none"})["name"] for c in cat_ids)
+    logger.info(f"Classes: {classes}")
+    # logger(f"NUM CLASSES: {len(classes)}")
     model.register_buffer("_classes_", torch.tensor(encode_labels(classes)))
 
     # prepare for distributed training

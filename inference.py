@@ -124,6 +124,7 @@ def inference():
         data_loader = create_test_data_loader(
             predictions, accelerator=accelerator, batch_size=1, num_workers=args.workers
         )
+        print(f"{model.CLASSES=}")
         data_loader.collate_fn = partial(_visualize_batch_for_infer, classes=model.CLASSES, **vars(args))
         [None for _ in tqdm(data_loader)]
 
@@ -144,6 +145,8 @@ def _visualize_batch_for_infer(
     image_name, image, output = batch[0].values()
     # plot bounding boxes on image
     image = image.numpy().transpose(1, 2, 0)
+    # print(f"{output['labels']=}")
+    # print(f"{len(output['labels'])=}")
     image = plot_bounding_boxes_on_image(
         image=image,
         boxes=output["boxes"],
